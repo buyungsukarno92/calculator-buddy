@@ -48,7 +48,16 @@ const Index = () => {
                 <Button variant="outline" size="icon" className="h-10 w-10" onClick={() => updateQty(i, -1)}>
                   <Minus className="h-5 w-5" />
                 </Button>
-                <span className="w-8 text-center text-lg font-bold text-foreground">{quantities[i]}</span>
+                <Input
+                  type="text"
+                  inputMode="numeric"
+                  value={quantities[i] || ""}
+                  onChange={(e) => {
+                    const val = parseInt(e.target.value.replace(/\D/g, "")) || 0;
+                    setQuantities((prev) => prev.map((q, j) => (j === i ? Math.max(0, val) : q)));
+                  }}
+                  className="w-14 h-10 text-center text-lg font-bold p-0"
+                />
                 <Button variant="outline" size="icon" className="h-10 w-10" onClick={() => updateQty(i, 1)}>
                   <Plus className="h-5 w-5" />
                 </Button>
