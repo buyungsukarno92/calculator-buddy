@@ -35,7 +35,7 @@ const Index = () => {
     <div className="min-h-screen bg-background p-4 flex flex-col items-center">
       <Card className="w-full max-w-md">
         <CardHeader className="pb-4">
-          <CardTitle className="text-xl text-center">Kalkulator Rental</CardTitle>
+          <CardTitle className="text-xl text-center">LJN - Voucher Kalkulator</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {ITEMS.map((item, i) => (
@@ -48,7 +48,16 @@ const Index = () => {
                 <Button variant="outline" size="icon" className="h-10 w-10" onClick={() => updateQty(i, -1)}>
                   <Minus className="h-5 w-5" />
                 </Button>
-                <span className="w-8 text-center text-lg font-bold text-foreground">{quantities[i]}</span>
+                <Input
+                  type="text"
+                  inputMode="numeric"
+                  value={quantities[i] || ""}
+                  onChange={(e) => {
+                    const val = parseInt(e.target.value.replace(/\D/g, "")) || 0;
+                    setQuantities((prev) => prev.map((q, j) => (j === i ? Math.max(0, val) : q)));
+                  }}
+                  className="w-14 h-10 text-center text-lg font-bold p-0"
+                />
                 <Button variant="outline" size="icon" className="h-10 w-10" onClick={() => updateQty(i, 1)}>
                   <Plus className="h-5 w-5" />
                 </Button>
