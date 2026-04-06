@@ -35,7 +35,7 @@ const Index = () => {
     <div className="min-h-screen bg-background p-4 flex flex-col items-center">
       <Card className="w-full max-w-md">
         <CardHeader className="pb-4">
-          <CardTitle className="text-xl text-center">Kalkulator Rental</CardTitle>
+          <CardTitle className="text-xl text-center">LJN - Voucher Kalkulator</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {ITEMS.map((item, i) => (
