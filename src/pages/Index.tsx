@@ -43,7 +43,9 @@ const Index = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-semibold text-foreground">{item.name}</p>
-                  <p className="text-sm text-muted-foreground">{formatRupiah(item.price)}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {formatRupiah(item.price)} x {quantities[i]}
+                  </p>
                   {quantities[i] > 0 && (
                     <p className="text-sm font-medium text-primary">
                       = {formatRupiah(item.price * quantities[i])}
