@@ -40,12 +40,12 @@ const Index = () => {
         <CardContent className="space-y-4">
           {ITEMS.map((item, i) => (
             <div key={item.name} className="p-3 rounded-lg bg-muted space-y-2">
-              <div className="flex items-center gap-3">
-                <div className="shrink-0 w-20">
-                  <p className="font-semibold text-foreground text-sm">{item.name}</p>
-                  <p className="text-xs text-muted-foreground">{formatRupiah(item.price)}</p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-foreground">{item.name}</p>
+                  <p className="text-sm text-muted-foreground">{formatRupiah(item.price)}</p>
                 </div>
-                <div className="flex items-center gap-1 flex-1 justify-end">
+                <div className="flex items-center gap-2">
                   <Button variant="outline" size="icon" className="h-9 w-9 shrink-0" onClick={() => updateQty(i, -1)}>
                     <Minus className="h-4 w-4" />
                   </Button>
