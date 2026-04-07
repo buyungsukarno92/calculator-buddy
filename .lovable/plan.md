@@ -1,50 +1,41 @@
 
 
-## Aplikasi Android Kalkulator Rental (APK)
+## Hasil Cek Workflow & Konfigurasi
 
-Kita akan bikin aplikasi Android menggunakan **Capacitor** — tools yang mengubah web app jadi aplikasi Android asli (file APK).
+Saya sudah periksa semua file terkait. Ada beberapa masalah yang perlu diperbaiki:
 
-### Yang Akan Dibuat
+### Masalah yang Ditemukan
 
-**1. Halaman Kalkulator**
-- 4 baris item: 4 Jam (Rp 1.600), 6 Jam (Rp 2.400), 12 Jam (Rp 4.000), 30 Hari (Rp 45.000)
-- Tombol + dan - untuk kuantiti
-- Total harga otomatis
-- Input uang bayar
-- Kembalian otomatis
-- Tombol Reset
+**1. Nama step salah — tulis "JDK 17" tapi pakai versi 21**
+- Baris workflow: `name: Set up JDK 17` tapi `java-version: '21'`
+- Tidak akan error, tapi membingungkan. Akan diseragamkan ke JDK 17 (lebih stabil untuk Capacitor)
 
-**2. Setup Capacitor untuk Android**
-- Install library Capacitor (`@capacitor/core`, `@capacitor/cli`, `@capacitor/android`)
-- Buat file konfigurasi Capacitor
-- Siapkan project untuk di-build jadi APK
+**2. Title HTML masih "Lovable App"**
+- Di `index.html`, title dan og:title masih default "Lovable App"
+- Harus diganti ke "LJN - Voucher Kalkulator"
 
-### Yang Perlu Kamu Siapkan di Komputer
+**3. `@capacitor/cli` ada di dependencies, seharusnya devDependencies**
+- Tidak kritis, tapi bisa bikin APK sedikit lebih besar
 
-Untuk menghasilkan file APK, kamu perlu:
+**4. Workflow perlu `--legacy-peer-deps` untuk npm install**
+- Bisa error kalau ada konflik dependency
 
-1. **Android Studio** — download gratis di [developer.android.com](https://developer.android.com/studio)
-2. **Node.js** — untuk menjalankan perintah build
-3. **Export project ke GitHub** — pakai tombol "Export to Github" di Lovable
+### Yang Sudah Benar ✅
+- `capacitor.config.ts` — tidak ada `server.url`, jadi APK jalan offline (tidak ke web Lovable)
+- `webDir: 'dist'` — benar, sesuai output Vite
+- Workflow step `cap add android` → `cap sync android` → build — urutan benar
+- Aplikasi kalkulator pure client-side, tidak perlu internet
 
-### Langkah Setelah Saya Selesai Coding
+### Rencana Perbaikan
 
-1. Export project ke GitHub, lalu `git clone` ke komputer kamu
-2. Buka terminal, jalankan:
-   ```
-   npm install
-   npx cap add android
-   npx cap update android
-   npm run build
-   npx cap sync
-   ```
-3. Buka di Android Studio: `npx cap open android`
-4. Di Android Studio, klik **Build → Build APK** untuk dapat file APK
-5. Transfer APK ke HP dan install
+| File | Perubahan |
+|------|-----------|
+| `.github/workflows/build-apk.yml` | Fix JDK ke versi 17, tambah `--legacy-peer-deps`, perbaiki nama step |
+| `index.html` | Ganti title ke "LJN - Voucher Kalkulator" |
+| `package.json` | Pindah `@capacitor/cli` ke devDependencies |
 
 ### Detail Teknis
-
-- **File baru**: `src/pages/Index.tsx` (UI kalkulator), `capacitor.config.ts`
-- **Library baru**: `@capacitor/core`, `@capacitor/cli`, `@capacitor/android`
-- Desain mobile-first, tombol besar, mudah ditekan
+- JDK 17 lebih cocok untuk Capacitor/Android Gradle
+- `--legacy-peer-deps` mencegah error dependency conflict saat `npm install`
+- Tidak ada perubahan pada logika aplikasi
 
