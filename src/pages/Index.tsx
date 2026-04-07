@@ -39,36 +39,36 @@ const Index = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           {ITEMS.map((item, i) => (
-            <div key={item.name} className="flex flex-col gap-2 p-3 rounded-lg bg-muted">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-semibold text-foreground">{item.name}</p>
-                  <p className="text-sm text-muted-foreground">{formatRupiah(item.price)}</p>
+            <div key={item.name} className="p-3 rounded-lg bg-muted space-y-2">
+              <div className="flex items-center gap-3">
+                <div className="shrink-0 w-20">
+                  <p className="font-semibold text-foreground text-sm">{item.name}</p>
+                  <p className="text-xs text-muted-foreground">{formatRupiah(item.price)}</p>
                 </div>
-                {quantities[i] > 0 && (
-                  <p className="text-sm font-medium text-primary">
-                    {formatRupiah(item.price * quantities[i])}
-                  </p>
-                )}
+                <div className="flex items-center gap-1 flex-1 justify-end">
+                  <Button variant="outline" size="icon" className="h-9 w-9 shrink-0" onClick={() => updateQty(i, -1)}>
+                    <Minus className="h-4 w-4" />
+                  </Button>
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    value={quantities[i] || ""}
+                    onChange={(e) => {
+                      const val = parseInt(e.target.value.replace(/\D/g, "")) || 0;
+                      setQuantities((prev) => prev.map((q, j) => (j === i ? Math.max(0, val) : q)));
+                    }}
+                    className="w-12 h-9 text-center text-base font-bold p-0"
+                  />
+                  <Button variant="outline" size="icon" className="h-9 w-9 shrink-0" onClick={() => updateQty(i, 1)}>
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="icon" className="h-10 w-10 shrink-0" onClick={() => updateQty(i, -1)}>
-                  <Minus className="h-5 w-5" />
-                </Button>
-                <Input
-                  type="text"
-                  inputMode="numeric"
-                  value={quantities[i] || ""}
-                  onChange={(e) => {
-                    const val = parseInt(e.target.value.replace(/\D/g, "")) || 0;
-                    setQuantities((prev) => prev.map((q, j) => (j === i ? Math.max(0, val) : q)));
-                  }}
-                  className="flex-1 h-10 text-center text-lg font-bold p-0"
-                />
-                <Button variant="outline" size="icon" className="h-10 w-10 shrink-0" onClick={() => updateQty(i, 1)}>
-                  <Plus className="h-5 w-5" />
-                </Button>
-              </div>
+              {quantities[i] > 0 && (
+                <p className="text-sm font-medium text-primary text-right">
+                  = {formatRupiah(item.price * quantities[i])}
+                </p>
+              )}
             </div>
           ))}
 
